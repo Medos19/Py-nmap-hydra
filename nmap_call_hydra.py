@@ -12,7 +12,13 @@ import os
 import libnmap
 from libnmap import parser
 
-hydra_form = """asterisk cisco cisco-enable cvs firebird ftp ftps http-proxy http-proxy-urlenum icq imaps imap irc ldap2 ldap2s mssql mysql nntp oracle-listener oracle-sid pcanywhere pcnfs pop3 pop3s postgres rdp rexec rlogin rsh sip smb smtp smtps smtp-enum snmp socks5 ssh sshkey svn teamspeak telnet telnets vmauthd vnc xmpp"""
+hydra_form = """asterisk cisco cisco-enable cvs firebird \
+ftp ftps http-proxy http-proxy-urlenum icq \
+imaps imap irc ldap2 ldap2s mssql mysql \
+nntp oracle-listener oracle-sid pcanywhere\
+pcnfs pop3 pop3s postgres rdp rexec rlogin \
+rsh sip smb smtp smtps smtp-enum snmp socks5\
+ssh sshkey svn teamspeak telnet telnets vmauthd vnc xmpp"""
 
 hydra_table = hydra_form.split()
 
@@ -51,10 +57,11 @@ def do_start():
         raise Exception('Error while parsing nmap!')
 
     import subprocess
-    hydra_cmd = "hydra -L /root/scans/username.lst -P /root/scans/password.lst -o {0} {1}"
+    import os
+    hydra_cmd = "hydra -L {0}/username.lst -P {1}/password.lst -o {2} {3}"
     with open(temp_file) as f:
         for line in f:
-            cmd = hydra_cmd.format('cracked-'+_date,line)
+            cmd = hydra_cmd.format(os.path.abspath('.'),os.path.abspath('.'),'cracked-'+_date,line)
             subprocess.call(cmd,shell=True)
 
 if __name__ == '__main__':
